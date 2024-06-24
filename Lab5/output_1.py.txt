@@ -1,0 +1,66 @@
+# output_1.py
+
+class ProductSearchStrategy:
+    def search_product(self, products, query):
+        pass
+
+class SearchByNameStrategy(ProductSearchStrategy):
+    def search_product(self, products, query):
+        result = []
+        for product in products:
+            if query.lower() in product.name.lower():
+                result.append(product)
+        return result
+
+class SearchByTypeStrategy(ProductSearchStrategy):
+    def search_product(self, products, query):
+        result = []
+        for product in products:
+            if query.lower() == product.type.lower():
+                result.append(product)
+        return result
+
+class Product:
+    def __init__(self, name, price, type):
+        self.name = name
+        self.price = price
+        self.type = type
+
+    def display_product(self):
+        print(f"Name: {self.name}, Price: {self.price}, Type: {self.type}")
+
+class ProductManager:
+    def __init__(self, products):
+        self.products = products
+        self.search_strategy = None
+
+    def set_search_strategy(self, search_strategy):
+        self.search_strategy = search_strategy
+
+    def search_product(self, query):
+        if self.search_strategy:
+            return self.search_strategy.search_product(self.products, query)
+        else:
+            raise ValueError("Search strategy is not set")
+
+    def display_products(self, products):
+        for product in products:
+            product.display_product()
+
+# Приклад використання:
+products = [
+    Product("Phone", 500, "Electronics"),
+    Product("Laptop", 1000, "Electronics"),
+    Product("Shirt", 20, "Clothing"),
+    Product("Pants", 30, "Clothing")
+]
+
+manager = ProductManager(products)
+
+manager.set_search_strategy(SearchByNameStrategy())
+result = manager.search_product("shirt")
+manager.display_products(result)
+
+manager.set_search_strategy(SearchByTypeStrategy())
+result = manager.search_product("Electronics")
+manager.display_products(result)

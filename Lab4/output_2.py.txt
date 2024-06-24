@@ -1,0 +1,16 @@
+import math
+
+class Square:
+    def area(self, side):
+        return side ** 2
+
+class Circle:
+    def area(self, radius):
+        return math.pi * radius ** 2
+
+# Приклад використання класів
+square = Square()
+print("Area of square:", square.area(5))
+
+circle = Circle()
+print("Area of circle:", circle.area(3))
